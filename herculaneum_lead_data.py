@@ -158,7 +158,7 @@ def get_input():
     else:
         st.write('Data not available')
 
-    st.write("For refrence, the EPA National Ambient Air Quality Standards (NAAQS) " \
+    st.write("For reference, the EPA National Ambient Air Quality Standards (NAAQS) " \
     "set the limit of lead in the air at 0.15𝜇𝑔/𝑚. Anything above 0.15𝜇𝑔/𝑚 is cause" \
     " for concern.")
 
