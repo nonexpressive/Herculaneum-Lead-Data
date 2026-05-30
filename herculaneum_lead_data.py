@@ -61,6 +61,16 @@ def calculate_average(df):
     average = round(df.loc[0, cols].mean(), 2)
     return average
 
+# This function displays colors
+def color_lead_value(value):
+    if value > 0.15:
+        color = 'red'
+    else:
+        color = 'green'
+
+    return f"<span style='color: {color};'>{value} µg/m3</span>"
+
+# This function displays the values to the user.
 def display_values(max_value,
                    second_max_value,
                    third_max_value,
@@ -70,11 +80,27 @@ def display_values(max_value,
                    second_date,
                    third_date,
                    fourth_date):
-    st.write('Largest Value: ', max_value, 'µg/m3 |', ' Date: ', first_date)
-    st.write('Second Largest Value: ', second_max_value, 'µg/m3 |', ' Date: ', second_date)
-    st.write('Third Largest Value: ', third_max_value, 'µg/m3 |', ' Date: ', third_date)
-    st.write('Fourth Largest Value: ', fourth_max_value, 'µg/m3 |', ' Date: ', fourth_date)
-    st.write("Average of Max Values: ", average, 'µg/m3')
+   # st.write('Largest Value: ', max_value, 'µg/m3 |', ' Date: ', first_date)
+    st.markdown(
+        f"Largest Value: {color_lead_value(max_value)} | Date: {first_date}",
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        f"Second Largest Value: {color_lead_value(second_max_value)} | Date: {second_date}",
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        f"Third Largest Value: {color_lead_value(third_max_value)} | Date: {third_date}",
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        f"Fourth Largest Value: {color_lead_value(fourth_max_value)} | Date: {fourth_date}",
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        f"Average of Max Values: {color_lead_value(average)}",
+        unsafe_allow_html=True
+    )
 
 def create_graph(max_value, second_max_value, third_max_value, fourth_max_value):
     labels = ['First', 'Second', 'Third', 'Fourth']
