@@ -1,5 +1,6 @@
 
 import pandas as pd
+from matplotlib import pyplot as plt
 import streamlit as st
 
 csv_files = {
@@ -102,20 +103,38 @@ def display_values(max_value,
         unsafe_allow_html=True
     )
 
-def create_graph(max_value, second_max_value, third_max_value, fourth_max_value):
-    labels = ['First', 'Second', 'Third', 'Fourth']
-    
-    values = [
-        max_value,
-        second_max_value,
-        third_max_value,
-        fourth_max_value]
+def create_graph():
+    years = []
+    averages = []
 
+    for year, csv_file in csv_files.items():
+        try:
+            df = pd.read_csv(csv_file)
+            average = calculate_average(df)
+
+            years.append(int(year))
+            averages.append(average)
+        except FileNotFoundError:
+            pass
+    graph_data = pd.DataFrame({
+        'Year': years,
+        'Average': averages
+    })
+
+    graph_data = graph_data.sort_values('Year')
     fig, ax = plt.subplots()
 
-    ax.plot(labels, values, color='red', marker='o', linestyle='solid')
-    ax.set_title("Max Lead Values")
-    ax.set_ylabel("Lead Max")
+    ax.plot(
+        graph_data['Year'],
+        graph_data['Average'],
+        color='red',
+        marker='o',
+        linestyle='solid'
+    )
+
+    ax.set_title('Average Max Lead Values by Year')
+    ax.set_xlabel('Year')
+    ax.set_ylabel('Lead Value µg/m3')
 
     st.pyplot(fig)
 
@@ -133,6 +152,10 @@ def tabs():
         "something easier to understand. I hope to show those living " \
         "in Herculaneum that the lead problem of the past " \
         "may still be an issue of the present.")
+
+    with tab2:
+        st.header('Average Max Lead Values by Year')
+        create_graph()
 
     with tab3:
         st.header('Sources')
